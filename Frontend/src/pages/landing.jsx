@@ -1,4 +1,5 @@
 import '../App.css';
+import { Link } from 'react-router-dom';
 
 export default function Landing() {
   return <div className="landingContainer">
@@ -18,9 +19,9 @@ export default function Landing() {
       <div>
         <h2>Welcome to CodeCall</h2>
         <p>Your platform for coding challenges and interviews.</p>
-        <div role="button" className="getStartedButton">
-          <p>Get Started</p>
-        </div>
+        <Link to="/auth" role="button" className="getStartedButton">
+            <p>Get Started</p>
+          </Link>
       </div>
       <div className="landingImage">
         <img src="/mobile.png" alt="Mobile App" />
