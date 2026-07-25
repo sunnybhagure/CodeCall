@@ -48,6 +48,13 @@ export default function VideoMeet() {
     let [videos, setVideos] = useState([]);
 
 
+    
+
+
+    useEffect(() => {
+      getPermissions();
+    }, []);
+
     const getPermissions = async () => {
       try {
         const videoPermission  = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -85,9 +92,69 @@ export default function VideoMeet() {
         console.error('Error accessing media devices.', err);
       }
     };
+
     useEffect(() => {
-      getPermissions();
-    }, []);
+      if(video !== undefined && audio !== undefined) {
+        getUserMedia();
+      }
+    }, [video, audio]);
+
+
+    let connectToSocketServer = () => {
+      scocketRef.current = io.connect(server_url, { secure : false});
+      socket.current.on('signal', gotMessageFromServer);
+      socket.current.on('connect', () => {
+        socketIdref.current = socket.current.id;
+
+        socketRef.current.on("chat-message", addMessage);
+
+        socketRef.current.on("user-left", (id) => {
+          setVideo((videos)=> videos.filter((video) => video.id !== id));
+        })
+
+        socketRef.current.on("user-joined", (id, client) => {
+          client.forEach((socketListId) => {
+            if(socketListId !== socketIdref.current) {
+              const peerConnection = new RTCPeerConnection(peerConnectionConfig);
+              connections[socketListId] = peerConnection;
+            }
+          })
+        })
+      })
+    }
+
+     let getmedia = () => {
+      setVideo(videoAvailable);
+      setAudio(audioAvailable);
+      // connectToSocketServer();
+    }
+
+    let connect = () => {
+    }
+
+    let getUserMediaSucess = (stream) => {
+
+    }
+
+    const getUserMedia = async () => {
+      if ((video || audio) && (videoAvailable || audioAvailable)) {
+        navigator.mediaDevices.getUserMedia({ video: video, audio: audio })
+          .then(() => { })
+          .then((stream) => {})
+          .catch((error) => {
+            console.error('Error accessing media devices.', error);
+          });
+      }else {
+        try {
+          let tracks = localVideoRef.current.srcObject.getTracks();
+          tracks.forEach(track => track.stop());
+        } catch (err) {
+          console.error('Error stopping media tracks.', err);
+        }
+      }
+    }
+
+   
 
   return (
     <div>
@@ -95,7 +162,7 @@ export default function VideoMeet() {
         <div> 
             <h2>Enter your username</h2>
             <TextField id="outlined-basic" label="Username" variant="outlined" value={username} onChange={(e) => setUsername(e.target.value)} />
-              <Button variant="contained">Connect</Button>
+              <Button variant="contained" onClick={connect}>Connect</Button>
 
             <div>
               <video ref={localVideoRef} autoPlay muted></video>
