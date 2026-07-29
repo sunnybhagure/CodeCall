@@ -100,6 +100,28 @@ export default function VideoMeet() {
     }, [video, audio]);
 
 
+    let gotMessageFromServer = (fromId, message) => {
+        var signal = JSON.parse(message)
+
+        if (fromId !== socketIdRef.current) {
+            if (signal.sdp) {
+                connections[fromId].setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(() => {
+                    if (signal.sdp.type === 'offer') {
+                        connections[fromId].createAnswer().then((description) => {
+                            connections[fromId].setLocalDescription(description).then(() => {
+                                socketRef.current.emit('signal', fromId, JSON.stringify({ 'sdp': connections[fromId].localDescription }))
+                            }).catch(e => console.log(e))
+                        }).catch(e => console.log(e))
+                    }
+                }).catch(e => console.log(e))
+            }
+
+            if (signal.ice) {
+                connections[fromId].addIceCandidate(new RTCIceCandidate(signal.ice)).catch(e => console.log(e))
+            }
+        }
+    }
+
     let connectToSocketServer = () => {
       scocketRef.current = io.connect(server_url, { secure : false});
       socket.current.on('signal', gotMessageFromServer);
@@ -182,8 +204,54 @@ export default function VideoMeet() {
     let connect = () => {
     }
 
-    let getUserMediaSucess = (stream) => {
+   let getUserMediaSuccess = (stream) => {
+        try {
+            window.localStream.getTracks().forEach(track => track.stop())
+        } catch (e) { console.log(e) }
 
+        window.localStream = stream
+        localVideoref.current.srcObject = stream
+
+        for (let id in connections) {
+            if (id === socketIdRef.current) continue
+
+            connections[id].addStream(window.localStream)
+
+            connections[id].createOffer().then((description) => {
+                console.log(description)
+                connections[id].setLocalDescription(description)
+                    .then(() => {
+                        socketRef.current.emit('signal', id, JSON.stringify({ 'sdp': connections[id].localDescription }))
+                    })
+                    .catch(e => console.log(e))
+            })
+        }
+
+        stream.getTracks().forEach(track => track.onended = () => {
+            setVideo(false);
+            setAudio(false);
+
+            try {
+                let tracks = localVideoref.current.srcObject.getTracks()
+                tracks.forEach(track => track.stop())
+            } catch (e) { console.log(e) }
+
+            let blackSilence = (...args) => new MediaStream([black(...args), silence()])
+            window.localStream = blackSilence()
+            localVideoref.current.srcObject = window.localStream
+
+            for (let id in connections) {
+                connections[id].addStream(window.localStream)
+
+                connections[id].createOffer().then((description) => {
+                    connections[id].setLocalDescription(description)
+                        .then(() => {
+                            socketRef.current.emit('signal', id, JSON.stringify({ 'sdp': connections[id].localDescription }))
+                        })
+                        .catch(e => console.log(e))
+                })
+            }
+        })
     }
 
     const getUserMedia = async () => {
@@ -218,7 +286,27 @@ export default function VideoMeet() {
               <video ref={localVideoRef} autoPlay muted></video>
               </div>
 
-        </div> : <>   </>
+        </div> : <>
+            <video ref={localVideoRef} autoPlay muted></video>
+            {videos.map((video) => (
+                            <div key={video.socketId}>
+                                <video
+
+                                    data-socket={video.socketId}
+                                    ref={ref => {
+                                        if (ref && video.stream) {
+                                            ref.srcObject = video.stream;
+                                        }
+                                    }}
+                                    autoPlay
+                                >
+                                </video>
+                            </div>
+
+                        ))}
+  
+
+           </>
 
         }
     </div>
