@@ -1,19 +1,14 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import mongoose, { Schema } from "mongoose";
 
-const userSchema = new Schema({
-    userId: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    meetingId: {
-        type: String,
-        required: true
-    },
-    date: {
-        type: Date,
-        required: true,
-        default: Date.now
+
+const meetingSchema = new Schema(
+    {
+        user_id: { type: String },
+        meetingCode: { type: String, required: true },
+        date: { type: Date, default: Date.now, required: true }
     }
-});
+)
+
+const Meeting = mongoose.model("Meeting", meetingSchema);
+
+export { Meeting };

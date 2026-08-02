@@ -1,11 +1,13 @@
-const express = require('express');
-const router = express.Router();
+import { Router } from "express";
+import { addToHistory, getUserHistory, login, register } from "../controller/userController.js";
 
-const mongoose = require('mongoose');
 
-const { registerUser, loginUser } = require('../controller/userController');
 
-router.post('/register', registerUser);
-router.post('/login', loginUser);
+const router = Router();
 
-module.exports = router;
+router.route("/login").post(login)
+router.route("/register").post(register)
+router.route("/add_to_activity").post(addToHistory)
+router.route("/get_all_activity").get(getUserHistory)
+
+export default router;

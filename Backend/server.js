@@ -1,107 +1,46 @@
-const express = require("express");
+import express from "express";
+import { createServer } from "node:http";
+import dotenv from "dotenv";
 
-const mongoose = require("mongoose");
-require("dotenv").config();
+import { Server } from "socket.io";
 
+import mongoose from "mongoose";
+import { connectToSocket } from "./controller/socketManager.js";
 
+import cors from "cors";
+import userRoutes from "./routes/userRoutes.js";
+
+dotenv.config();
 
 const app = express();
-const http = require('http');
-const { Server } = require('socket.io');
+const server = createServer(app);
+const io = connectToSocket(server);
 
 
-const cors = require('cors');
+app.set("port", process.env.PORT || 8000);
 app.use(cors());
-// Middleware
+app.use(express.json({ limit: "40kb" }));
+app.use(express.urlencoded({ limit: "40kb", extended: true }));
 
-app.use(express.json());
+app.use("/api/v1/users", userRoutes);
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI)
-.then(() => console.log("Connected to MongoDB"))
-.catch((error) => console.error("Error connecting to MongoDB:", error));
+const start = async () => {
+    const mongoUri = process.env.MONGODB_URI;
+    if (!mongoUri) {
+        throw new Error("MONGODB_URI environment variable is required");
+    }
 
-app.use("/api/users", require("./routes/userRoutes"));
+    const connectionDb = await mongoose.connect(mongoUri);
 
-
-app.get("/", (req, res) => {
-  res.send("Backend Running");
-});
-
-const PORT = process.env.PORT || 5000;
-
-const server = http.createServer(app);
-
-const io = new Server(server, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST']
-  }
-});
-
-// Simple in-memory room/connections/messages store
-const connections = {};
-const messages = {};
-const timeOnline = {};
-
-io.on('connection', (socket) => {
-  console.log('Socket connected:', socket.id);
-
-  socket.on('join-call', (path) => {
-    if (!connections[path]) connections[path] = [];
-    connections[path].push(socket.id);
-    timeOnline[socket.id] = Date.now();
-
-    // notify everyone in room
-    connections[path].forEach((id) => {
-      io.to(id).emit('user-joined', socket.id, connections[path]);
+    console.log(`MONGO Connected DB Host: ${connectionDb.connection.host}`);
+    server.listen(app.get("port"), () => {
+        console.log(`LISTENING ON PORT ${app.get("port")}`);
     });
 
-    // replay messages
-    if (messages[path]) {
-      messages[path].forEach((m) => {
-        io.to(socket.id).emit('chat-message', m.data, m.sender, m['socket-id-sender']);
-      });
-    }
-  });
 
-  socket.on('signal', (told, message) => {
-    io.to(told).emit('signal', socket.id, message);
-  });
 
-  socket.on('chat-message', (data, sender) => {
-    // find room
-    const room = Object.keys(connections).find((r) => connections[r].includes(socket.id));
-    if (!room) return;
-    if (!messages[room]) messages[room] = [];
-    messages[room].push({ data, sender, 'socket-id-sender': socket.id });
-    connections[room].forEach((id) => io.to(id).emit('chat-message', data, sender, socket.id));
-  });
+}
 
-  socket.on('disconnect', () => {
-    const diff = Date.now() - (timeOnline[socket.id] || Date.now());
-    // remove from any room
-    for (const [room, arr] of Object.entries(connections)) {
-      const idx = arr.indexOf(socket.id);
-      if (idx !== -1) {
-        arr.splice(idx, 1);
-        // notify others
-        arr.forEach((id) => io.to(id).emit('user-left', socket.id, diff));
-        if (arr.length === 0) {
-          delete connections[room];
-          delete messages[room];
-        }
-      }
-    }
-    delete timeOnline[socket.id];
-  });
-});
 
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
 
-app.post("/test", (req, res) => {
-  console.log(req.body);
-  res.json(req.body);
-});
+start();
