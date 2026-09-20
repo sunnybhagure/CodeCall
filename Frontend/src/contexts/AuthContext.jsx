@@ -7,7 +7,7 @@ import server from "../environment";
 export const AuthContext = createContext({});
 
 const client = axios.create({
-    baseURL: `${server}api/users`,
+    baseURL: `${server}api/v1/users`,
 });
 
 export const AuthProvider = ({ children }) => {
@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
     const handleRegister = async (email, username, password) => {
         try {
             let request = await client.post("/register", {
+                name: username,
                 email: email,
                 username: username,
                 password: password,
@@ -38,12 +39,11 @@ export const AuthProvider = ({ children }) => {
                 password: password,
             });
 
-            console.log(username, password);
-            console.log(request.data);
-
             if (request.status === httpStatus.OK) {
                 localStorage.setItem("token", request.data.token);
-                router("/");
+                setUserData({ username, token: request.data.token });
+                router("/home");
+                return request.data;
             }
         } catch (err) {
             throw err;
