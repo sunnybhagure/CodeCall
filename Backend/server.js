@@ -9,6 +9,7 @@ import { connectToSocket } from "./controller/socketManager.js";
 
 import cors from "cors";
 import userRoutes from "./routes/userRoutes.js";
+import interviewRoutes from "./routes/interview.js";
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use(express.json({ limit: "40kb" }));
 app.use(express.urlencoded({ limit: "40kb", extended: true }));
 
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/interview", interviewRoutes);
 
 const start = async () => {
     const mongoUri = process.env.MONGODB_URI;
