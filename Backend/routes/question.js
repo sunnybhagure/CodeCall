@@ -6,6 +6,7 @@ import {
     getQuestion,
     updateQuestion,
     deleteQuestion,
+    runCode,
 } from "../controller/question.js";
 
 const router = express.Router();
@@ -13,6 +14,10 @@ const router = express.Router();
 
 // Create Question
 router.post("/create", createQuestion);
+
+
+// Run Code
+router.post("/run/:questionId", runCode);
 
 
 // Get All Questions
