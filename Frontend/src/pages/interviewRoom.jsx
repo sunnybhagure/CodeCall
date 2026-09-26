@@ -4,6 +4,7 @@ import Editor from "@monaco-editor/react";
 import axios from "axios";
 import server from "../environment";
 
+
 const InterviewRoom = () => {
     const { interviewId } = useParams();
 
@@ -13,6 +14,10 @@ const InterviewRoom = () => {
 
     const [code, setCode] = useState("");
     const [language, setLanguage] = useState("javascript");
+
+
+    const [runResult, setRunResult] = useState(null);
+    const [isRunning, setIsRunning] = useState(false);
 
     useEffect(() => {
         const fetchInterview = async () => {
@@ -44,6 +49,35 @@ const InterviewRoom = () => {
 
         fetchInterview();
     }, [interviewId]);
+
+    const handleRunCode = async () => {
+    try {
+        setIsRunning(true);
+        setRunResult(null);
+
+        const response = await axios.post(
+            `${server}api/v1/question/run/${questionId}`,
+            {
+                code: code,
+            }
+        );
+
+        setRunResult(response.data);
+
+    } catch (error) {
+        console.error("RUN CODE ERROR:", error);
+
+        setRunResult({
+            message:
+                error.response?.data?.message ||
+                "Something went wrong while running code",
+            result: null,
+            testResults: [],
+        });
+    } finally {
+        setIsRunning(false);
+    }
+};
 
     if (loading) {
         return (

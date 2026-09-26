@@ -18,10 +18,11 @@ function App() {
             <Route path="/auth" element={<AuthenticationPage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/history" element={<HistoryPage />} />
-<Route
-    path="/interview/:interviewId"
-    element={<InterviewRoom />}
-/>            <Route path="/:url" element={<VideoMeet />} />
+            <Route
+                path="/interview/:interviewId"
+                element={<InterviewRoom />}
+            />      
+            <Route path="/:url" element={<VideoMeet />} />
           </Routes>
         </div>
       </AuthProvider>
