@@ -1,1708 +1,504 @@
-/* =========================================================
-   DEVMEET - VIDEO MEET CSS
-   COMPLETE STYLESHEET
-   ========================================================= */
-
-
-/* =========================================================
-   GLOBAL
-   ========================================================= */
-
+/* --- Professional Zoom-Like Dark Theme --- */
 .meetPage {
+    background-color: #0f1113;
+    color: #ffffff;
     min-height: 100vh;
-    width: 100%;
-
-    background: #080d1a;
-
-    color: #fff;
-
-    box-sizing: border-box;
-}
-
-.meetPage *,
-.meetPage *::before,
-.meetPage *::after {
-    box-sizing: border-box;
-}
-
-
-/* =========================================================
-   =========================================================
-   LOBBY / JOIN MEETING PAGE
-   =========================================================
-   ========================================================= */
-
-.lobbyPage {
-    min-height: 100vh;
-    width: 100%;
-
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 32px 20px;
-
-    background:
-        radial-gradient(
-            circle at 20% 15%,
-            rgba(80, 100, 255, 0.18),
-            transparent 32%
-        ),
-        radial-gradient(
-            circle at 80% 85%,
-            rgba(0, 190, 255, 0.12),
-            transparent 30%
-        ),
-        #080d1a;
+    flex-direction: column;
 }
 
-
-/* =========================================================
-   LOBBY CARD
-   ========================================================= */
+/* --- Lobby Page --- */
+.lobbyPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: radial-gradient(circle at center, #1c2128 0%, #0d1117 100%);
+    padding: 20px;
+}
 
 .lobbyCard {
-    width: min(720px, 100%);
-
-    padding: 28px;
-
-    border: 1px solid rgba(255, 255, 255, 0.1);
-
-    border-radius: 24px;
-
-    background: rgba(18, 25, 43, 0.94);
-
-    box-shadow:
-        0 24px 80px rgba(0, 0, 0, 0.4);
-
-    backdrop-filter: blur(18px);
+    background: #161b22;
+    border: 1px solid #30363d;
+    padding: 32px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
-
-
-/* =========================================================
-   LOBBY HEADER
-   ========================================================= */
 
 .lobbyHeader {
-    text-align: center;
-
-    margin-bottom: 22px;
-}
-
-.lobbyBadge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 6px 12px;
-
-    border-radius: 999px;
-
-    background: rgba(72, 108, 255, 0.15);
-
-    border: 1px solid rgba(100, 130, 255, 0.3);
-
-    color: #9eb1ff;
-
-    font-size: 12px;
-
-    font-weight: 800;
-
-    letter-spacing: 1.4px;
+    margin-bottom: 24px;
 }
 
 .lobbyHeader h1 {
-    margin: 12px 0 8px;
-
-    font-size: clamp(26px, 4vw, 38px);
-
-    line-height: 1.1;
+    font-size: 24px;
+    margin: 8px 0 4px 0;
+    font-weight: 600;
 }
 
 .lobbyHeader p {
-    margin: 0 auto;
-
-    max-width: 540px;
-
-    color: #9da8bb;
-
+    color: #8b949e;
     font-size: 14px;
-
-    line-height: 1.6;
+    margin: 0;
 }
 
+.lobbyBadge {
+    background: #0e71eb;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+}
 
-/* =========================================================
-   CAMERA PREVIEW
-   ========================================================= */
-
+/* --- Preview Box --- */
 .previewBox {
     position: relative;
-
     width: 100%;
-
-    height: min(420px, 55vw);
-
-    min-height: 260px;
-
+    aspect-ratio: 16 / 9;
+    background: #1f242d;
+    border-radius: 12px;
     overflow: hidden;
-
-    border-radius: 18px;
-
-    background: #03050a;
-
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid #30363d;
+    margin-bottom: 16px;
 }
-
-
-/* =========================================================
-   PREVIEW VIDEO
-   ========================================================= */
 
 .previewVideo {
-    display: block;
-
     width: 100%;
     height: 100%;
-
     object-fit: cover;
-
-    background: #03050a;
-
-    transform: scaleX(-1);
+    transform: scaleX(-1); /* Mirror effect */
 }
 
-
-/* =========================================================
-   CAMERA OFF OVERLAY
-   ========================================================= */
-
-.cameraOffOverlay {
+.cameraOffOverlay, .permissionOverlay, .videoOffOverlay {
     position: absolute;
-
     inset: 0;
-
+    background: rgba(22, 27, 34, 0.85);
     display: flex;
-
     flex-direction: column;
-
-    align-items: center;
-
     justify-content: center;
-
-    gap: 8px;
-
-    background: rgba(7, 10, 18, 0.86);
-
-    color: #d9deea;
-
-    z-index: 2;
-}
-
-.cameraOffOverlay svg {
-    font-size: 42px;
-
-    color: #8e99ad;
-}
-
-.cameraOffOverlay span {
-    font-size: 14px;
-}
-
-
-/* =========================================================
-   PERMISSION OVERLAY
-   ========================================================= */
-
-.permissionOverlay {
-    position: absolute;
-
-    inset: 0;
-
-    display: flex;
-
-    flex-direction: column;
-
     align-items: center;
-
-    justify-content: center;
-
     gap: 8px;
-
-    background: rgba(7, 10, 18, 0.62);
-
-    color: #d9deea;
-
-    z-index: 3;
+    color: #8b949e;
+    font-size: 13px;
+    backdrop-filter: blur(4px);
 }
 
-.permissionOverlay span {
-    font-size: 14px;
-
-    text-align: center;
-
-    padding: 0 20px;
+.cameraOffOverlay svg, .videoOffOverlay svg {
+    font-size: 32px;
+    color: #ea4335;
 }
 
-
-/* =========================================================
-   PREVIEW CONTROLS
-   ========================================================= */
-
+/* --- Preview Controls --- */
 .previewControls {
     display: flex;
-
     gap: 12px;
-
-    justify-content: center;
-
-    margin: 18px 0;
+    margin-bottom: 20px;
 }
-
-
-/* =========================================================
-   PREVIEW CONTROL BUTTON
-   ========================================================= */
 
 .previewControl {
-    min-width: 150px;
-
-    min-height: 48px;
-
-    padding: 10px 16px;
-
-    display: inline-flex;
-
+    flex: 1;
+    display: flex;
     align-items: center;
-
     justify-content: center;
-
     gap: 8px;
-
-    border: 1px solid rgba(255, 255, 255, 0.1);
-
-    border-radius: 12px;
-
-    color: #fff;
-
-    background: #20283a;
-
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid #30363d;
+    font-size: 13px;
+    font-weight: 500;
     cursor: pointer;
-
-    font-weight: 700;
-
-    transition:
-        transform 0.18s ease,
-        background 0.18s ease,
-        border-color 0.18s ease;
+    transition: background 0.2s;
 }
-
-.previewControl:hover:not(:disabled) {
-    transform: translateY(-1px);
-
-    background: #29344a;
-}
-
-.previewControl:disabled {
-    opacity: 0.45;
-
-    cursor: not-allowed;
-}
-
-
-/* =========================================================
-   ACTIVE / OFF CONTROL
-   ========================================================= */
 
 .activeControl {
-    background: #24324e;
+    background: #21262d;
+    color: #ffffff;
+}
 
-    border-color: rgba(120, 150, 255, 0.45);
+.activeControl:hover {
+    background: #30363d;
 }
 
 .offControl {
-    background: #351f28;
-
-    border-color: rgba(255, 90, 110, 0.28);
+    background: #ea4335;
+    border-color: #ea4335;
+    color: #ffffff;
 }
 
+.offControl:hover {
+    background: #d33828;
+}
 
-/* =========================================================
-   NAME INPUT
-   ========================================================= */
-
+/* --- Input & Button overrides --- */
 .nameInput {
-    margin-top: 2px !important;
+    margin-bottom: 16px !important;
 }
 
-
-/* Material UI TextField */
-
-.nameInput :global(.MuiOutlinedInput-root) {
-    color: #fff;
-
-    background: #111827;
-
-    border-radius: 12px;
+.nameInput label {
+    color: #8b949e !important;
 }
 
-.nameInput :global(.MuiInputLabel-root) {
-    color: #9da8bb;
+.nameInput .MuiOutlinedInput-root {
+    color: #ffffff !important;
+    background: #0d1117 !important;
 }
 
-.nameInput :global(.MuiOutlinedInput-notchedOutline) {
-    border-color: rgba(255, 255, 255, 0.15);
+.nameInput .MuiOutlinedInput-notchedOutline {
+    border-color: #30363d !important;
 }
 
-.nameInput :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
-    border-color: rgba(130, 150, 255, 0.45);
+.nameInput .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #8b949e !important;
 }
-
-.nameInput :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
-    border-color: #7187ff;
-}
-
-
-/* =========================================================
-   JOIN BUTTON
-   ========================================================= */
 
 .joinButton {
-    width: 100%;
-
-    min-height: 48px;
-
-    margin-top: 16px !important;
-
-    border-radius: 12px !important;
-
+    width: 100% !important;
+    background-color: #0e71eb !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    padding: 12px !important;
+    border-radius: 8px !important;
     text-transform: none !important;
-
     font-size: 15px !important;
-
-    font-weight: 800 !important;
+    box-shadow: none !important;
 }
 
-
-/* =========================================================
-   PERMISSION HINT
-   ========================================================= */
+.joinButton:hover {
+    background-color: #0b5fc9 !important;
+}
 
 .permissionHint {
-    margin: 12px 0 0;
-
     text-align: center;
-
-    color: #7f8ba0;
-
+    color: #8b949e;
     font-size: 12px;
-
-    line-height: 1.5;
+    margin-top: 16px;
+    margin-bottom: 0;
 }
 
-
-/* =========================================================
-   =========================================================
-   MEETING PAGE
-   =========================================================
-   ========================================================= */
-
+/* --- Active Meeting Room Layout --- */
 .meetVideoContainer {
-    position: relative;
-
-    width: 100%;
-
+    display: flex;
+    flex-direction: column;
     height: 100vh;
-
     overflow: hidden;
-
-    background: #05070d;
+    position: relative;
 }
-
-
-/* =========================================================
-   TOP BAR
-   ========================================================= */
 
 .topBar {
-    position: absolute;
-
-    top: 0;
-    left: 0;
-    right: 0;
-
-    height: 64px;
-
-    z-index: 20;
-
     display: flex;
-
-    align-items: center;
-
     justify-content: space-between;
-
-    padding: 0 22px;
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(3, 5, 10, 0.9),
-            transparent
-        );
-
-    pointer-events: none;
+    align-items: center;
+    padding: 12px 24px;
+    background: #161b22;
+    border-bottom: 1px solid #30363d;
 }
-
-
-/* =========================================================
-   BRAND
-   ========================================================= */
 
 .meetingBrand {
     display: flex;
-
     align-items: center;
-
-    gap: 10px;
+    gap: 12px;
 }
 
 .meetingBrand span {
-    font-weight: 900;
-
-    letter-spacing: 1.4px;
-
+    font-weight: 700;
     font-size: 14px;
+    letter-spacing: 1px;
+    color: #0e71eb;
 }
 
 .meetingBrand small {
-    color: #8994a8;
-
-    font-size: 12px;
-
-    border-left: 1px solid rgba(255, 255, 255, 0.14);
-
-    padding-left: 10px;
+    color: #8b949e;
+    font-size: 13px;
+    border-left: 1px solid #30363d;
+    padding-left: 12px;
 }
-
-
-/* =========================================================
-   LIVE STATUS
-   ========================================================= */
 
 .topBarStatus {
     display: flex;
-
     align-items: center;
-
-    gap: 7px;
-
-    padding: 6px 10px;
-
-    border-radius: 999px;
-
-    background: rgba(10, 15, 26, 0.62);
-
-    color: #aeb8ca;
-
-    font-size: 12px;
+    gap: 8px;
+    font-size: 13px;
+    color: #8b949e;
 }
 
 .statusDot {
-    width: 7px;
-    height: 7px;
-
-    flex-shrink: 0;
-
+    width: 8px;
+    height: 8px;
+    background-color: #3fb950;
     border-radius: 50%;
-
-    background: #36d98a;
-
-    box-shadow:
-        0 0 10px rgba(54, 217, 138, 0.7);
+    box-shadow: 0 0 8px rgba(63, 185, 80, 0.6);
 }
 
-
-/* =========================================================
-   VIDEO STAGE
-   ========================================================= */
-
+/* --- Video Stage & Grid --- */
 .videoStage {
-    position: absolute;
-
-    top: 64px;
-
-    left: 0;
-    right: 0;
-
-    bottom: 88px;
-
-    width: 100%;
-
-    height: auto;
-
-    padding: 10px 14px;
-
+    flex: 1;
+    display: flex;
     overflow: hidden;
+    position: relative;
 }
-
-
-/* =========================================================
-   CONFERENCE GRID
-   ========================================================= */
 
 .conferenceView {
-    position: relative;
-
-    width: 100%;
-    height: 100%;
-
     display: grid;
-
-    grid-template-columns:
-        repeat(
-            1,
-            minmax(0, 1fr)
-        );
-
-    grid-template-rows:
-        repeat(
-            1,
-            minmax(0, 1fr)
-        );
-
-    gap: 10px;
-
-    overflow: hidden;
-
-    min-width: 0;
-    min-height: 0;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+    padding: 24px;
+    flex: 1;
+    overflow-y: auto;
+    align-content: center;
+    justify-content: center;
 }
 
-
-/* =========================================================
-   2 PARTICIPANTS
-   ========================================================= */
-
-.conferenceView:has(.remoteVideoCard:nth-child(2)) {
-    grid-template-columns:
-        repeat(
-            2,
-            minmax(0, 1fr)
-        );
-
-    grid-template-rows:
-        repeat(
-            1,
-            minmax(0, 1fr)
-        );
-}
-
-
-/* =========================================================
-   3 PARTICIPANTS
-   ========================================================= */
-
-.conferenceView:has(.remoteVideoCard:nth-child(3)) {
-    grid-template-columns:
-        repeat(
-            2,
-            minmax(0, 1fr)
-        );
-
-    grid-template-rows:
-        repeat(
-            2,
-            minmax(0, 1fr)
-        );
-}
-
-
-/* =========================================================
-   4 PARTICIPANTS
-   ========================================================= */
-
-.conferenceView:has(.remoteVideoCard:nth-child(4)) {
-    grid-template-columns:
-        repeat(
-            2,
-            minmax(0, 1fr)
-        );
-
-    grid-template-rows:
-        repeat(
-            2,
-            minmax(0, 1fr)
-        );
-}
-
-
-/* =========================================================
-   5 PARTICIPANTS
-   ========================================================= */
-
-.conferenceView:has(.remoteVideoCard:nth-child(5)) {
-    grid-template-columns:
-        repeat(
-            3,
-            minmax(0, 1fr)
-        );
-
-    grid-template-rows:
-        repeat(
-            2,
-            minmax(0, 1fr)
-        );
-}
-
-
-/* =========================================================
-   6 PARTICIPANTS
-   ========================================================= */
-
-.conferenceView:has(.remoteVideoCard:nth-child(6)) {
-    grid-template-columns:
-        repeat(
-            3,
-            minmax(0, 1fr)
-        );
-
-    grid-template-rows:
-        repeat(
-            2,
-            minmax(0, 1fr)
-        );
-}
-
-
-/* =========================================================
-   7 PARTICIPANTS
-   ========================================================= */
-
-.conferenceView:has(.remoteVideoCard:nth-child(7)) {
-    grid-template-columns:
-        repeat(
-            3,
-            minmax(0, 1fr)
-        );
-
-    grid-template-rows:
-        repeat(
-            3,
-            minmax(0, 1fr)
-        );
-}
-
-
-/* =========================================================
-   8 PARTICIPANTS
-   ========================================================= */
-
-.conferenceView:has(.remoteVideoCard:nth-child(8)) {
-    grid-template-columns:
-        repeat(
-            3,
-            minmax(0, 1fr)
-        );
-
-    grid-template-rows:
-        repeat(
-            3,
-            minmax(0, 1fr)
-        );
-}
-
-
-/* =========================================================
-   9 PARTICIPANTS
-   ========================================================= */
-
-.conferenceView:has(.remoteVideoCard:nth-child(9)) {
-    grid-template-columns:
-        repeat(
-            3,
-            minmax(0, 1fr)
-        );
-
-    grid-template-rows:
-        repeat(
-            3,
-            minmax(0, 1fr)
-        );
-}
-
-
-/* =========================================================
-   10 - 12 PARTICIPANTS
-   ========================================================= */
-
-.conferenceView:has(.remoteVideoCard:nth-child(10)),
-.conferenceView:has(.remoteVideoCard:nth-child(11)),
-.conferenceView:has(.remoteVideoCard:nth-child(12)) {
-    grid-template-columns:
-        repeat(
-            4,
-            minmax(0, 1fr)
-        );
-
-    grid-template-rows:
-        repeat(
-            3,
-            minmax(0, 1fr)
-        );
-}
-
-
-/* =========================================================
-   13 - 16 PARTICIPANTS
-   ========================================================= */
-
-.conferenceView:has(.remoteVideoCard:nth-child(13)),
-.conferenceView:has(.remoteVideoCard:nth-child(14)),
-.conferenceView:has(.remoteVideoCard:nth-child(15)),
-.conferenceView:has(.remoteVideoCard:nth-child(16)) {
-    grid-template-columns:
-        repeat(
-            4,
-            minmax(0, 1fr)
-        );
-
-    grid-template-rows:
-        repeat(
-            4,
-            minmax(0, 1fr)
-        );
-}
-
-
-/* =========================================================
-   LOCAL + REMOTE VIDEO CARDS
-   ========================================================= */
-
-.localVideoCard,
-.remoteVideoCard {
+.remoteVideoCard, .localVideoCard {
     position: relative;
-
-    width: 100%;
-    height: 100%;
-
-    min-width: 0;
-    min-height: 0;
-
-    overflow: hidden;
-
+    background: #1f242d;
     border-radius: 12px;
-
-    background: #111722;
-
-    border: none;
-
-    box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.30);
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 1px solid #30363d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-
-/* =========================================================
-   VIDEO ELEMENTS
-   ========================================================= */
-
-.meetUserVideo,
-.remoteVideoCard video {
-    display: block;
-
+.remoteVideoCard video, .localVideoCard video {
     width: 100%;
     height: 100%;
-
-    min-width: 0;
-    min-height: 0;
-
     object-fit: cover;
-
-    background: #080b12;
-
-    border: none;
-
-    outline: none;
 }
 
-
-/* Mirror local camera */
-
-.meetUserVideo {
-    transform: scaleX(-1);
-}
-
-
-/* =========================================================
-   CAMERA OFF OVERLAY
-   ========================================================= */
-
-.videoOffOverlay {
+.localNameTag, .remoteNameTag {
     position: absolute;
-
-    inset: 0;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 6px;
-
-    background: #141a26;
-
-    color: #b9c1cf;
-
-    z-index: 2;
-}
-
-.videoOffOverlay svg {
-    font-size: 36px;
-}
-
-.videoOffOverlay span {
+    bottom: 12px;
+    left: 12px;
+    background: rgba(0, 0, 0, 0.65);
+    color: #ffffff;
+    padding: 4px 10px;
+    border-radius: 6px;
     font-size: 12px;
+    backdrop-filter: blur(4px);
+    font-weight: 500;
 }
 
-
-/* =========================================================
-   LOCAL USER NAME
-   ========================================================= */
-
-.localNameTag {
-    position: absolute;
-
-    left: 10px;
-    bottom: 10px;
-
-    padding: 6px 9px;
-
-    border-radius: 8px;
-
-    background: rgba(0, 0, 0, 0.62);
-
-    color: #fff;
-
-    font-size: 12px;
-
-    max-width: calc(100% - 20px);
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-
-    white-space: nowrap;
-
-    z-index: 5;
-}
-
-
-/* =========================================================
-   WAITING CARD
-   ========================================================= */
-
+/* --- Waiting State --- */
 .waitingCard {
-    position: absolute;
-
-    left: 50%;
-    bottom: 25px;
-
-    transform: translateX(-50%);
-
-    z-index: 10;
-
-    width: min(
-        430px,
-        calc(100% - 40px)
-    );
-
-    min-height: 0;
-
+    grid-column: 1 / -1;
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
-
-    padding: 14px 20px;
-
+    padding: 48px;
     text-align: center;
-
-    border: none;
-
-    border-radius: 14px;
-
-    background: rgba(17, 23, 34, 0.88);
-
-    backdrop-filter: blur(12px);
-
-    overflow: hidden;
-
-    pointer-events: none;
+    color: #8b949e;
 }
 
 .waitingIcon {
-    width: 48px;
-    height: 48px;
-
-    flex-shrink: 0;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
-
-    background: #1c2536;
-
-    color: #9eacbf;
+    background: #21262d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    border: 1px solid #30363d;
 }
 
 .waitingIcon svg {
-    font-size: 24px;
+    font-size: 28px;
+    color: #0e71eb;
 }
 
 .waitingCard h2 {
-    margin: 10px 0 5px;
-
-    font-size: 16px;
+    color: #ffffff;
+    font-size: 20px;
+    margin: 0 0 8px 0;
 }
 
 .waitingCard p {
-    max-width: 400px;
-
     margin: 0;
-
-    color: #7f8ba0;
-
-    font-size: 12px;
-
-    line-height: 1.5;
+    font-size: 14px;
 }
 
-
-/* =========================================================
-   =========================================================
-   MEETING CONTROL BAR
-   =========================================================
-   ========================================================= */
-
+/* --- Control Bar --- */
 .buttonContainers {
-    position: fixed;
-
-    left: 50%;
-
-    bottom: 22px;
-
-    transform: translateX(-50%);
-
-    z-index: 50;
-
     display: flex;
-
+    justify-content: center;
     align-items: center;
-
-    gap: 10px;
-
-    padding: 9px;
-
-    border: 1px solid rgba(255, 255, 255, 0.1);
-
-    border-radius: 18px;
-
-    background: rgba(16, 21, 32, 0.90);
-
-    box-shadow:
-        0 14px 40px rgba(0, 0, 0, 0.45);
-
-    backdrop-filter: blur(18px);
+    gap: 16px;
+    padding: 16px;
+    background: #161b22;
+    border-top: 1px solid #30363d;
+    z-index: 10;
 }
-
-
-/* =========================================================
-   CONTROL BUTTON
-   ========================================================= */
 
 .meetingControl {
-    width: 48px !important;
-    height: 48px !important;
-
-    color: #fff !important;
-
-    background: #242c3b !important;
-
-    transition:
-        transform 0.18s ease,
-        background 0.18s ease !important;
+    background: #21262d !important;
+    color: white !important;
+    padding: 12px !important;
+    border-radius: 50% !important;
+    border: 1px solid #30363d !important;
 }
 
 .meetingControl:hover {
-    transform: translateY(-2px);
-
-    background: #313b4e !important;
+    background: #30363d !important;
 }
-
-.meetingControl svg {
-    font-size: 22px;
-}
-
-
-/* =========================================================
-   CONTROL STATES
-   ========================================================= */
 
 .controlOn {
-    background: #253149 !important;
+    background: #21262d !important;
 }
 
 .controlOff {
-    background: #49242e !important;
+    background: #ea4335 !important;
+    border-color: #ea4335 !important;
 }
 
-
-/* =========================================================
-   END CALL
-   ========================================================= */
+.controlOff:hover {
+    background: #d33828 !important;
+}
 
 .endCallControl {
-    background: #dc3545 !important;
+    background: #ea4335 !important;
+    border-color: #ea4335 !important;
+    padding: 12px 24px !important;
+    border-radius: 30px !important;
 }
 
 .endCallControl:hover {
-    background: #bd2635 !important;
+    background: #d33828 !important;
 }
 
-
-/* =========================================================
-   =========================================================
-   CHAT ROOM
-   =========================================================
-   ========================================================= */
-
+/* --- Chat Drawer / Modal --- */
 .chatRoom {
-    position: fixed;
-
+    position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
-
-    width: min(
-        390px,
-        94vw
-    );
-
+    width: 360px;
+    background: #161b22;
+    border-left: 1px solid #30363d;
     z-index: 100;
-
-    padding: 14px;
-
-    background: rgba(4, 7, 13, 0.62);
-
-    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.4);
 }
-
-
-/* =========================================================
-   CHAT CONTAINER
-   ========================================================= */
 
 .chatContainer {
-    height: 100%;
-
     display: flex;
-
     flex-direction: column;
-
-    overflow: hidden;
-
-    border: 1px solid rgba(255, 255, 255, 0.1);
-
-    border-radius: 18px;
-
-    background: #111827;
-
-    box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.5);
+    height: 100%;
 }
 
-
-/* =========================================================
-   CHAT HEADER
-   ========================================================= */
-
 .chatHeader {
-    min-height: 68px;
-
-    padding: 14px 16px;
-
     display: flex;
-
-    align-items: center;
-
     justify-content: space-between;
-
-    border-bottom:
-        1px solid rgba(255, 255, 255, 0.08);
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #30363d;
 }
 
 .chatHeader h2 {
-    margin: 0 0 3px;
-
     font-size: 16px;
+    margin: 0;
+    font-weight: 600;
 }
 
 .chatHeader span {
-    color: #778399;
-
-    font-size: 11px;
+    font-size: 12px;
+    color: #8b949e;
 }
 
-
-/* =========================================================
-   CLOSE CHAT BUTTON
-   ========================================================= */
-
 .closeChatButton {
-    width: 34px;
-    height: 34px;
-
-    border: 0;
-
-    border-radius: 9px;
-
-    background: #202938;
-
-    color: #fff;
-
-    font-size: 22px;
-
+    background: none;
+    border: none;
+    color: #8b949e;
+    font-size: 24px;
     cursor: pointer;
-
-    transition:
-        background 0.18s ease,
-        transform 0.18s ease;
+    padding: 0;
+    line-height: 1;
 }
 
 .closeChatButton:hover {
-    background: #2c374b;
-
-    transform: scale(1.04);
+    color: #ffffff;
 }
-
-
-/* =========================================================
-   CHAT DISPLAY
-   ========================================================= */
 
 .chattingDisplay {
     flex: 1;
-
-    overflow-y: auto;
-
     padding: 16px;
-
-    scrollbar-width: thin;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-
-/* =========================================================
-   MESSAGE
-   ========================================================= */
-
 .messageItem {
-    margin-bottom: 12px;
-
-    padding: 10px 12px;
-
-    border-radius: 11px;
-
-    background: #1b2433;
-
-    overflow-wrap: anywhere;
+    background: #21262d;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #30363d;
 }
 
 .messageSender {
-    margin: 0 0 4px;
-
-    color: #9fb1ff;
-
-    font-size: 11px;
-
-    font-weight: 800;
+    font-size: 12px;
+    font-weight: 600;
+    color: #0e71eb;
+    margin: 0 0 4px 0;
 }
 
 .messageText {
-    margin: 0;
-
-    color: #e8ebf1;
-
     font-size: 13px;
-
-    line-height: 1.5;
-
-    overflow-wrap: anywhere;
+    margin: 0;
+    color: #e6edf3;
+    word-break: break-word;
 }
-
-
-/* =========================================================
-   EMPTY CHAT
-   ========================================================= */
 
 .emptyChat {
     height: 100%;
-
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
-
-    color: #6f7b90;
-
-    text-align: center;
+    color: #8b949e;
+    gap: 8px;
 }
 
 .emptyChat svg {
-    font-size: 34px;
-
-    margin-bottom: 8px;
+    font-size: 32px;
 }
-
-.emptyChat p {
-    margin: 0;
-
-    font-size: 13px;
-}
-
-
-/* =========================================================
-   CHAT INPUT AREA
-   ========================================================= */
 
 .chattingArea {
+    padding: 16px;
+    border-top: 1px solid #30363d;
     display: flex;
-
     gap: 8px;
-
-    padding: 12px;
-
-    border-top:
-        1px solid rgba(255, 255, 255, 0.08);
+    background: #161b22;
 }
 
-
-/* =========================================================
-   CHAT MUI INPUT
-   ========================================================= */
-
-.chattingArea :global(.MuiOutlinedInput-root) {
-    color: #fff;
-
-    background: #0d1420;
-
-    border-radius: 10px;
+.chattingArea .MuiOutlinedInput-root {
+    color: #ffffff !important;
+    background: #0d1117 !important;
 }
 
-.chattingArea :global(.MuiInputLabel-root) {
-    color: #7f8ba0;
+.chattingArea .MuiOutlinedInput-notchedOutline {
+    border-color: #30363d !important;
 }
 
-.chattingArea :global(.MuiOutlinedInput-notchedOutline) {
-    border-color: rgba(255, 255, 255, 0.12);
-}
-
-.chattingArea :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
-    border-color: rgba(130, 150, 255, 0.4);
-}
-
-.chattingArea :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
-    border-color: #7187ff;
+.chattingArea label {
+    color: #8b949e !important;
 }
 
 .chattingArea button {
-    min-width: 68px;
-
-    border-radius: 10px;
-
-    text-transform: none;
-
-    font-weight: 700;
+    background-color: #0e71eb !important;
+    color: #ffffff !important;
+    text-transform: none !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
 }
 
-
-/* =========================================================
-   =========================================================
-   TABLET
-   =========================================================
-   ========================================================= */
-
-@media (max-width: 900px) {
-
-    .videoStage {
-        top: 60px;
-
-        bottom: 82px;
-
-        padding: 8px 10px;
-    }
-
-    .conferenceView {
-        gap: 8px;
-    }
-
-    .localVideoCard,
-    .remoteVideoCard {
-        border-radius: 10px;
-    }
-
-    .buttonContainers {
-        bottom: 14px;
-    }
-}
-
-
-/* =========================================================
-   =========================================================
-   MOBILE
-   =========================================================
-   ========================================================= */
-
-@media (max-width: 760px) {
-
-    /* -------------------------
-       LOBBY
-       ------------------------- */
-
-    .lobbyPage {
-        padding: 22px 14px;
-    }
-
-    .lobbyCard {
-        width: 100%;
-
-        padding: 22px;
-
-        border-radius: 20px;
-    }
-
-    .previewBox {
-        height: min(
-            420px,
-            62vw
-        );
-
-        min-height: 240px;
-    }
-
-    .previewControls {
-        gap: 8px;
-    }
-
-    .previewControl {
-        min-width: 0;
-
-        flex: 1;
-    }
-
-
-    /* -------------------------
-       MEETING
-       ------------------------- */
-
-    .videoStage {
-        top: 60px;
-
-        bottom: 76px;
-
-        padding: 6px 8px;
-    }
-
-
-    /*
-       On mobile always keep
-       maximum 2 columns.
-    */
-
-    .conferenceView,
-    .conferenceView:has(.remoteVideoCard:nth-child(2)),
-    .conferenceView:has(.remoteVideoCard:nth-child(3)),
-    .conferenceView:has(.remoteVideoCard:nth-child(4)),
-    .conferenceView:has(.remoteVideoCard:nth-child(5)),
-    .conferenceView:has(.remoteVideoCard:nth-child(6)),
-    .conferenceView:has(.remoteVideoCard:nth-child(7)),
-    .conferenceView:has(.remoteVideoCard:nth-child(8)),
-    .conferenceView:has(.remoteVideoCard:nth-child(9)) {
-
-        grid-template-columns:
-            repeat(
-                2,
-                minmax(0, 1fr)
-            );
-
-        grid-auto-rows:
-            minmax(0, 1fr);
-
-        grid-template-rows: unset;
-
-        gap: 6px;
-    }
-
-
-    .localVideoCard,
-    .remoteVideoCard {
-        width: 100%;
-        height: 100%;
-
-        min-width: 0;
-        min-height: 0;
-
-        border-radius: 8px;
-    }
-
-
-    .localNameTag {
-        left: 6px;
-        bottom: 6px;
-
-        padding: 5px 7px;
-
-        font-size: 11px;
-    }
-
-
-    /* -------------------------
-       CONTROLS
-       ------------------------- */
-
-    .buttonContainers {
-        bottom: 10px;
-
-        gap: 6px;
-
-        padding: 7px;
-
-        max-width: calc(100vw - 16px);
-    }
-
-    .meetingControl {
-        width: 44px !important;
-        height: 44px !important;
-    }
-
-
-    /* -------------------------
-       CHAT
-       ------------------------- */
-
-    .chatRoom {
-        width: 100%;
-
-        padding: 8px;
-    }
-}
-
-
-/* =========================================================
-   =========================================================
-   SMALL MOBILE
-   =========================================================
-   ========================================================= */
-
-@media (max-width: 420px) {
-
-    /* -------------------------
-       LOBBY
-       ------------------------- */
-
-    .lobbyPage {
-        padding: 16px;
-    }
-
-    .lobbyCard {
-        margin-top: 20px;
-
-        padding: 18px;
-
-        border-radius: 18px;
-    }
-
-    .lobbyHeader h1 {
-        font-size: 26px;
-    }
-
-    .lobbyHeader p {
-        font-size: 13px;
-    }
-
-    .previewBox {
-        height: 55vw;
-
-        min-height: 220px;
-    }
-
-    .previewControls {
-        flex-direction: column;
-
-        gap: 8px;
-    }
-
-    .previewControl {
-        width: 100%;
-    }
-
-
-    /* -------------------------
-       MEETING
-       ------------------------- */
-
-    .videoStage {
-        padding: 5px;
-    }
-
-    .conferenceView {
-        gap: 5px;
-    }
-
-    .localVideoCard,
-    .remoteVideoCard {
-        border-radius: 7px;
-    }
-
-
-    /* -------------------------
-       CONTROLS
-       ------------------------- */
-
-    .buttonContainers {
-        width: calc(100vw - 12px);
-
-        justify-content: center;
-
-        gap: 4px;
-    }
-
-    .meetingControl {
-        width: 42px !important;
-        height: 42px !important;
-    }
-
-    .meetingControl svg {
-        font-size: 20px;
-    }
-
-
-    /* -------------------------
-       WAITING CARD
-       ------------------------- */
-
-    .waitingCard {
-        bottom: 12px;
-
-        width: calc(100% - 24px);
-
-        padding: 12px 14px;
-    }
-
-    .waitingCard h2 {
-        font-size: 14px;
-    }
-
-    .waitingCard p {
-        font-size: 11px;
-    }
-
-    .waitingIcon {
-        width: 42px;
-        height: 42px;
-    }
-
-    .waitingIcon svg {
-        font-size: 21px;
-    }
-}
-
-
-/* =========================================================
-   =========================================================
-   SHORT LAPTOP SCREEN
-   =========================================================
-   ========================================================= */
-
-@media (max-height: 650px) and (min-width: 761px) {
-
-    .topBar {
-        height: 52px;
-    }
-
-    .videoStage {
-        top: 52px;
-
-        bottom: 74px;
-
-        padding: 6px 10px;
-    }
-
-    .buttonContainers {
-        bottom: 10px;
-
-        padding: 6px;
-    }
-
-    .meetingControl {
-        width: 42px !important;
-        height: 42px !important;
-    }
-
-    .previewBox {
-        min-height: 220px;
-    }
-}
-
-
-/* =========================================================
-   =========================================================
-   VERY SHORT LAPTOP
-   =========================================================
-   ========================================================= */
-
-@media (max-height: 520px) and (min-width: 761px) {
-
-    .lobbyPage {
-        padding: 15px;
-    }
-
-    .lobbyCard {
-        padding: 18px;
-    }
-
-    .lobbyHeader {
-        margin-bottom: 12px;
-    }
-
-    .lobbyHeader h1 {
-        margin: 7px 0 5px;
-
-        font-size: 25px;
-    }
-
-    .previewBox {
-        height: 230px;
-
-        min-height: 180px;
-    }
-
-    .previewControls {
-        margin: 10px 0;
-    }
-
-    .joinButton {
-        margin-top: 10px !important;
-    }
+.chattingArea button:hover {
+    background-color: #0b5fc9 !important;
 }

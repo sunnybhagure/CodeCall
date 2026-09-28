@@ -1,67 +1,121 @@
+
 import React, { useContext, useState } from "react";
 import withAuth from "../utils/withAuth";
 import { useNavigate } from "react-router-dom";
-import { Button, IconButton, TextField, Box, Typography } from "@mui/material";
+import "../App.css";
+
+import {
+    Button,
+    IconButton,
+    TextField,
+    Box,
+    Card,
+    CardContent,
+    Typography,
+    Divider,
+    Chip,
+    Stack,
+} from "@mui/material";
+
 import RestoreIcon from "@mui/icons-material/Restore";
+import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
+import CodeIcon from "@mui/icons-material/Code";
+import PersonSearchIcon from "@mui/icons-material/PersonSearch";
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+
 import { AuthContext } from "../contexts/AuthContext";
 
 function HomeComponent() {
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
+
     const [meetingCode, setMeetingCode] = useState("");
 
     const { addToUserHistory } = useContext(AuthContext);
 
-    let handleJoinVideoCall = async () => {
+    // =========================
+    // NORMAL VIDEO MEETING
+    // =========================
+
+    const handleJoinVideoCall = async () => {
+
+        if (!meetingCode.trim()) {
+            return;
+        }
+
         await addToUserHistory(meetingCode);
+
         navigate(`/${meetingCode}`);
     };
+
+
+    // =========================
+    // INTERVIEW
+    // =========================
+
+    const handleTakeInterview = () => {
+
+        // Candidate interview page
+        navigate("/interview");
+    };
+
+
+    const handleCreateInterview = () => {
+
+        // Interviewer create interview page
+        navigate("/interview/create");
+    };
+
 
     return (
         <Box
             sx={{
                 minHeight: "100vh",
                 width: "100%",
-                background:
-                    "radial-gradient(circle at 15% 50%, rgba(99,102,241,0.14), transparent 35%), radial-gradient(circle at 85% 40%, rgba(59,130,246,0.10), transparent 35%), #080d18",
-                color: "#fff",
-                overflow: "hidden",
+                background: "#ffffff",
+                color: "#111827",
             }}
         >
 
-            {/* ================= NAVBAR ================= */}
+            {/* =====================================================
+                NAVBAR
+            ====================================================== */}
 
             <Box
                 sx={{
-                    height: { xs: 68, md: 76 },
-                    px: { xs: 2, sm: 3, md: 5 },
+                    height: "72px",
+                    px: {
+                        xs: 2,
+                        sm: 3,
+                        md: 5,
+                    },
+
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
 
-                    background: "rgba(10,17,31,0.82)",
-                    borderBottom: "1px solid rgba(255,255,255,0.08)",
+                    borderBottom: "1px solid #e5e7eb",
 
-                    backdropFilter: "blur(16px)",
-                    WebkitBackdropFilter: "blur(16px)",
+                    background: "#ffffff",
                 }}
             >
 
-                {/* App Name */}
+                {/* Logo */}
 
                 <Typography
-                    variant="h6"
                     sx={{
-                        fontWeight: 750,
-                        fontSize: { xs: "18px", sm: "21px", md: "23px" },
-                        letterSpacing: "-0.5px",
-                        background:
-                            "linear-gradient(90deg, #fff, #9db8ff)",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
+                        fontSize: {
+                            xs: "20px",
+                            sm: "23px",
+                        },
+
+                        fontWeight: 800,
+
+                        color: "#111827",
                     }}
                 >
-                    DEVMEET
+                    Apna Video Call
                 </Typography>
 
 
@@ -71,7 +125,7 @@ function HomeComponent() {
                     sx={{
                         display: "flex",
                         alignItems: "center",
-                        gap: { xs: 0.5, sm: 1.5 },
+                        gap: 1,
                     }}
                 >
 
@@ -80,24 +134,11 @@ function HomeComponent() {
                             navigate("/history");
                         }}
                         sx={{
-                            width: 42,
-                            height: 42,
-                            color: "#b9c6df",
-
-                            background:
-                                "rgba(255,255,255,0.05)",
-
-                            border:
-                                "1px solid rgba(255,255,255,0.07)",
+                            color: "#374151",
 
                             "&:hover": {
-                                color: "#fff",
-                                background:
-                                    "rgba(99,102,241,0.18)",
-                                transform: "translateY(-1px)",
+                                background: "#f3f4f6",
                             },
-
-                            transition: "all 0.25s ease",
                         }}
                     >
                         <RestoreIcon />
@@ -105,11 +146,18 @@ function HomeComponent() {
 
                     <Typography
                         sx={{
-                            mr: { xs: 0.5, sm: 1 },
-                            color: "#aab5ca",
+                            display: {
+                                xs: "none",
+                                sm: "block",
+                            },
+
+                            mr: 1,
+
                             fontSize: "14px",
-                            fontWeight: 500,
-                            display: { xs: "none", sm: "block" },
+
+                            fontWeight: 600,
+
+                            color: "#374151",
                         }}
                     >
                         History
@@ -118,149 +166,162 @@ function HomeComponent() {
 
                     <Button
                         onClick={() => {
+
                             localStorage.removeItem("token");
+
                             navigate("/auth");
+
                         }}
+                        variant="outlined"
                         sx={{
-                            minWidth: { xs: 68, sm: 88 },
-                            px: { xs: 1.5, sm: 2.2 },
-                            py: 1,
-
-                            borderRadius: "10px",
-
-                            color: "#fff",
-
-                            fontSize: { xs: "13px", sm: "14px" },
-                            fontWeight: 600,
-
                             textTransform: "none",
 
-                            background:
-                                "rgba(255,255,255,0.06)",
+                            borderRadius: "9px",
 
-                            border:
-                                "1px solid rgba(255,255,255,0.10)",
+                            fontWeight: 700,
+
+                            borderColor: "#d1d5db",
+
+                            color: "#374151",
 
                             "&:hover": {
-                                background:
-                                    "rgba(239,68,68,0.14)",
-                                borderColor:
-                                    "rgba(239,68,68,0.35)",
-                                color: "#ffb4b4",
+                                borderColor: "#9ca3af",
+                                background: "#f9fafb",
                             },
-
-                            transition: "all 0.25s ease",
                         }}
                     >
                         Logout
                     </Button>
 
                 </Box>
+
             </Box>
 
 
-            {/* ================= MAIN SECTION ================= */}
+            {/* =====================================================
+                MAIN CONTENT
+            ====================================================== */}
 
             <Box
                 sx={{
-                    minHeight: "calc(100vh - 76px)",
+                    width: "100%",
 
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    maxWidth: "1200px",
 
-                    gap: { xs: 4, md: 8, lg: 12 },
+                    mx: "auto",
 
-                    px: { xs: 2, sm: 4, md: 7, lg: 10 },
-                    py: { xs: 5, md: 6 },
+                    px: {
+                        xs: 2,
+                        sm: 3,
+                        md: 5,
+                    },
 
-                    flexDirection: {
-                        xs: "column",
-                        md: "row",
+                    py: {
+                        xs: 4,
+                        md: 6,
                     },
                 }}
             >
 
-                {/* ================= LEFT PANEL ================= */}
+
+                {/* =================================================
+                    NORMAL VIDEO MEETING SECTION
+                ================================================== */}
 
                 <Box
                     sx={{
-                        width: {
-                            xs: "100%",
-                            md: "52%",
-                            lg: "48%",
+                        display: "grid",
+
+                        gridTemplateColumns: {
+                            xs: "1fr",
+                            md: "1.1fr 0.9fr",
                         },
 
-                        maxWidth: "600px",
+                        gap: {
+                            xs: 4,
+                            md: 7,
+                        },
 
-                        display: "flex",
                         alignItems: "center",
                     }}
                 >
 
-                    <Box sx={{ width: "100%" }}>
+                    {/* LEFT */}
+
+                    <Box>
+
+                        <Chip
+                            icon={<VideoCameraFrontIcon />}
+                            label="Video Meetings"
+                            sx={{
+                                mb: 2,
+
+                                background: "#eef2ff",
+
+                                color: "#4338ca",
+
+                                fontWeight: 700,
+
+                                "& .MuiChip-icon": {
+                                    color: "#4338ca",
+                                },
+                            }}
+                        />
+
 
                         <Typography
-                            component="h1"
                             sx={{
                                 fontSize: {
-                                    xs: "32px",
-                                    sm: "40px",
-                                    md: "48px",
-                                    lg: "55px",
+                                    xs: "30px",
+                                    sm: "38px",
+                                    md: "44px",
                                 },
 
                                 lineHeight: 1.12,
 
-                                letterSpacing: {
-                                    xs: "-1px",
-                                    md: "-1.8px",
-                                },
+                                fontWeight: 800,
 
-                                fontWeight: 750,
+                                color: "#111827",
 
-                                color: "#fff",
-
-                                mb: { xs: 3, md: 4 },
-
-                                maxWidth: "580px",
+                                mb: 2,
                             }}
                         >
-                            Providing Quality Video Call Just Like Quality
-                            Education
+                            Providing Quality
+                            <br />
+                            Video Calls
                         </Typography>
 
 
-                        {/* Meeting Input + Join */}
+                        <Typography
+                            sx={{
+                                maxWidth: "550px",
+
+                                color: "#6b7280",
+
+                                fontSize: "15px",
+
+                                lineHeight: 1.7,
+
+                                mb: 3,
+                            }}
+                        >
+                            Connect with your friends, teammates and
+                            interviewers through high-quality video
+                            meetings.
+                        </Typography>
+
+
+                        {/* Join Meeting */}
 
                         <Box
                             sx={{
                                 display: "flex",
-                                alignItems: "center",
 
-                                gap: 1.2,
+                                gap: 1.5,
 
-                                p: 0.8,
+                                width: "100%",
 
-                                width: {
-                                    xs: "100%",
-                                    sm: "fit-content",
-                                },
-
-                                maxWidth: "100%",
-
-                                borderRadius: "14px",
-
-                                background:
-                                    "rgba(255,255,255,0.055)",
-
-                                border:
-                                    "1px solid rgba(255,255,255,0.09)",
-
-                                boxShadow:
-                                    "0 12px 35px rgba(0,0,0,0.25)",
-
-                                backdropFilter: "blur(12px)",
+                                maxWidth: "520px",
 
                                 flexDirection: {
                                     xs: "column",
@@ -270,48 +331,17 @@ function HomeComponent() {
                         >
 
                             <TextField
+                                fullWidth
+                                size="small"
+                                value={meetingCode}
                                 onChange={(e) =>
                                     setMeetingCode(e.target.value)
                                 }
-                                id="outlined-basic"
                                 label="Meeting Code"
-                                variant="outlined"
-                                fullWidth
+                                placeholder="Enter meeting code"
                                 sx={{
-                                    width: {
-                                        xs: "100%",
-                                        sm: 270,
-                                    },
-
                                     "& .MuiOutlinedInput-root": {
-                                        height: 52,
                                         borderRadius: "10px",
-                                        color: "#fff",
-                                        background:
-                                            "rgba(7,12,23,0.75)",
-
-                                        "& fieldset": {
-                                            borderColor:
-                                                "rgba(255,255,255,0.12)",
-                                        },
-
-                                        "&:hover fieldset": {
-                                            borderColor:
-                                                "rgba(129,140,248,0.5)",
-                                        },
-
-                                        "&.Mui-focused fieldset": {
-                                            borderColor:
-                                                "#6366f1",
-                                        },
-                                    },
-
-                                    "& .MuiInputLabel-root": {
-                                        color: "#8e9ab1",
-                                    },
-
-                                    "& .MuiInputLabel-root.Mui-focused": {
-                                        color: "#8b9cff",
                                     },
                                 }}
                             />
@@ -319,42 +349,27 @@ function HomeComponent() {
                             <Button
                                 onClick={handleJoinVideoCall}
                                 variant="contained"
+                                endIcon={<ArrowForwardIcon />}
                                 sx={{
-                                    height: 52,
-
                                     minWidth: {
                                         xs: "100%",
-                                        sm: 95,
+                                        sm: "120px",
                                     },
-
-                                    px: 2.5,
 
                                     borderRadius: "10px",
 
                                     textTransform: "none",
 
-                                    fontSize: "15px",
-                                    fontWeight: 650,
+                                    fontWeight: 700,
 
-                                    background:
-                                        "linear-gradient(135deg,#6366f1,#4f46e5)",
+                                    boxShadow: "none",
 
-                                    boxShadow:
-                                        "0 8px 22px rgba(79,70,229,0.28)",
+                                    background: "#111827",
 
                                     "&:hover": {
-                                        background:
-                                            "linear-gradient(135deg,#7477ff,#5b54ee)",
-
-                                        boxShadow:
-                                            "0 12px 28px rgba(79,70,229,0.40)",
-
-                                        transform:
-                                            "translateY(-2px)",
+                                        background: "#1f2937",
+                                        boxShadow: "none",
                                     },
-
-                                    transition:
-                                        "all 0.25s ease",
                                 }}
                             >
                                 Join
@@ -364,77 +379,410 @@ function HomeComponent() {
 
                     </Box>
 
+
+                    {/* RIGHT */}
+
+                    <Box
+                        sx={{
+                            display: "flex",
+
+                            justifyContent: "center",
+
+                            alignItems: "center",
+                        }}
+                    >
+
+                        <Box
+                            component="img"
+                            src="/logo3.png"
+                            alt="Video Meeting"
+                            sx={{
+                                width: "100%",
+
+                                maxWidth: "420px",
+
+                                height: "auto",
+
+                                objectFit: "contain",
+                            }}
+                        />
+
+                    </Box>
+
                 </Box>
 
 
-                {/* ================= RIGHT PANEL ================= */}
+                {/* =================================================
+                    DIVIDER
+                ================================================== */}
 
-                <Box
+                <Divider
                     sx={{
-                        width: {
-                            xs: "80%",
-                            sm: "65%",
-                            md: "42%",
-                            lg: "38%",
+                        my: {
+                            xs: 5,
+                            md: 7,
                         },
+                    }}
+                />
 
-                        maxWidth: "470px",
 
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
+                {/* =================================================
+                    INTERVIEW FEATURE CARD
+                ================================================== */}
+
+                <Card
+                    elevation={0}
+                    sx={{
+                        width: "100%",
+
+                        borderRadius: "20px",
+
+                        border: "1px solid #e5e7eb",
+
+                        background:
+                            "linear-gradient(135deg, #f8faff 0%, #ffffff 60%, #f5f7ff 100%)",
+
+                        overflow: "hidden",
 
                         position: "relative",
-
-                        "&::before": {
-                            content: '""',
-
-                            position: "absolute",
-
-                            width: "280px",
-                            height: "280px",
-
-                            borderRadius: "50%",
-
-                            background:
-                                "rgba(99,102,241,0.16)",
-
-                            filter: "blur(65px)",
-
-                            zIndex: 0,
-                        },
                     }}
                 >
 
+                    {/* Top decorative area */}
+
                     <Box
-                        component="img"
-                        src="/logo3.png"
-                        alt="DEVMEET"
                         sx={{
+                            height: "5px",
+
                             width: "100%",
-                            height: "auto",
 
-                            objectFit: "contain",
-
-                            position: "relative",
-                            zIndex: 1,
-
-                            borderRadius: "24px",
-
-                            filter:
-                                "drop-shadow(0 25px 45px rgba(0,0,0,0.45))",
-
-                            transition:
-                                "transform 0.4s ease",
-
-                            "&:hover": {
-                                transform:
-                                    "translateY(-6px) scale(1.015)",
-                            },
+                            background:
+                                "linear-gradient(90deg, #4f46e5, #7c3aed, #2563eb)",
                         }}
                     />
 
-                </Box>
+
+                    <CardContent
+                        sx={{
+                            p: {
+                                xs: 3,
+                                sm: 4,
+                                md: 5,
+                            },
+                        }}
+                    >
+
+                        <Box
+                            sx={{
+                                display: "flex",
+
+                                flexDirection: {
+                                    xs: "column",
+                                    md: "row",
+                                },
+
+                                justifyContent: "space-between",
+
+                                alignItems: {
+                                    xs: "flex-start",
+                                    md: "center",
+                                },
+
+                                gap: 4,
+                            }}
+                        >
+
+                            {/* Interview Information */}
+
+                            <Box
+                                sx={{
+                                    flex: 1,
+                                }}
+                            >
+
+                                <Stack
+                                    direction="row"
+                                    spacing={1}
+                                    sx={{
+                                        mb: 2,
+                                        flexWrap: "wrap",
+                                    }}
+                                >
+
+                                    <Chip
+                                        icon={<PersonSearchIcon />}
+                                        label="Interview Platform"
+                                        size="small"
+                                        sx={{
+                                            background: "#eef2ff",
+
+                                            color: "#4338ca",
+
+                                            fontWeight: 700,
+
+                                            "& .MuiChip-icon": {
+                                                color: "#4338ca",
+                                            },
+                                        }}
+                                    />
+
+                                    <Chip
+                                        icon={<CodeIcon />}
+                                        label="Live Coding"
+                                        size="small"
+                                        variant="outlined"
+                                        sx={{
+                                            fontWeight: 600,
+
+                                            borderColor: "#d1d5db",
+
+                                            color: "#4b5563",
+                                        }}
+                                    />
+
+                                </Stack>
+
+
+                                <Typography
+                                    sx={{
+                                        fontSize: {
+                                            xs: "26px",
+                                            sm: "30px",
+                                        },
+
+                                        fontWeight: 800,
+
+                                        color: "#111827",
+
+                                        mb: 1,
+                                    }}
+                                >
+                                    Technical Interview
+                                </Typography>
+
+
+                                <Typography
+                                    sx={{
+                                        maxWidth: "700px",
+
+                                        color: "#6b7280",
+
+                                        fontSize: "14px",
+
+                                        lineHeight: 1.7,
+
+                                        mb: 3,
+                                    }}
+                                >
+                                    Conduct or attend technical interviews
+                                    with live video, real-time coding,
+                                    interview questions and collaborative
+                                    coding environment.
+                                </Typography>
+
+
+                                {/* Features */}
+
+                                <Stack
+                                    direction={{
+                                        xs: "column",
+                                        sm: "row",
+                                    }}
+                                    spacing={{
+                                        xs: 1,
+                                        sm: 3,
+                                    }}
+                                >
+
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: 1,
+                                        }}
+                                    >
+
+                                        <VideoCameraFrontIcon
+                                            sx={{
+                                                fontSize: 20,
+                                                color: "#4f46e5",
+                                            }}
+                                        />
+
+                                        <Typography
+                                            sx={{
+                                                fontSize: "13px",
+                                                fontWeight: 600,
+                                                color: "#374151",
+                                            }}
+                                        >
+                                            Live Video
+                                        </Typography>
+
+                                    </Box>
+
+
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: 1,
+                                        }}
+                                    >
+
+                                        <CodeIcon
+                                            sx={{
+                                                fontSize: 20,
+                                                color: "#7c3aed",
+                                            }}
+                                        />
+
+                                        <Typography
+                                            sx={{
+                                                fontSize: "13px",
+                                                fontWeight: 600,
+                                                color: "#374151",
+                                            }}
+                                        >
+                                            Live Coding
+                                        </Typography>
+
+                                    </Box>
+
+
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: 1,
+                                        }}
+                                    >
+
+                                        <PersonSearchIcon
+                                            sx={{
+                                                fontSize: 20,
+                                                color: "#2563eb",
+                                            }}
+                                        />
+
+                                        <Typography
+                                            sx={{
+                                                fontSize: "13px",
+                                                fontWeight: 600,
+                                                color: "#374151",
+                                            }}
+                                        >
+                                            Interview Evaluation
+                                        </Typography>
+
+                                    </Box>
+
+                                </Stack>
+
+                            </Box>
+
+
+                            {/* Buttons */}
+
+                            <Box
+                                sx={{
+                                    minWidth: {
+                                        xs: "100%",
+                                        md: "230px",
+                                    },
+
+                                    display: "flex",
+
+                                    flexDirection: "column",
+
+                                    gap: 1.5,
+                                }}
+                            >
+
+                                <Button
+                                    variant="contained"
+                                    size="large"
+                                    startIcon={<PersonSearchIcon />}
+                                    onClick={handleTakeInterview}
+                                    sx={{
+                                        width: "100%",
+
+                                        minHeight: "50px",
+
+                                        borderRadius: "11px",
+
+                                        textTransform: "none",
+
+                                        fontWeight: 800,
+
+                                        background: "#4f46e5",
+
+                                        boxShadow: "none",
+
+                                        "&:hover": {
+                                            background: "#4338ca",
+                                            boxShadow: "none",
+                                        },
+                                    }}
+                                >
+                                    Take Interview
+                                </Button>
+
+
+                                <Button
+                                    variant="outlined"
+                                    size="large"
+                                    startIcon={<AddCircleOutlineOutlinedIcon />}
+                                    onClick={handleCreateInterview}
+                                    sx={{
+                                        width: "100%",
+
+                                        minHeight: "50px",
+
+                                        borderRadius: "11px",
+
+                                        textTransform: "none",
+
+                                        fontWeight: 700,
+
+                                        borderColor: "#c7d2fe",
+
+                                        color: "#4338ca",
+
+                                        "&:hover": {
+                                            borderColor: "#818cf8",
+
+                                            background: "#eef2ff",
+                                        },
+                                    }}
+                                >
+                                    Create Interview
+                                </Button>
+
+                            </Box>
+
+                        </Box>
+
+                    </CardContent>
+
+                </Card>
+
+
+                {/* Bottom text */}
+
+                <Typography
+                    sx={{
+                        textAlign: "center",
+
+                        mt: 3,
+
+                        fontSize: "12px",
+
+                        color: "#9ca3af",
+                    }}
+                >
+                    One platform for video meetings and technical interviews.
+                </Typography>
 
             </Box>
 
@@ -443,3 +791,5 @@ function HomeComponent() {
 }
 
 export default withAuth(HomeComponent);
+
+
