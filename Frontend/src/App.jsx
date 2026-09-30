@@ -7,6 +7,7 @@ import VideoMeet from './pages/videoMeet.jsx';
 import HomePage from './pages/home.jsx';
 import HistoryPage from './pages/history.jsx';
 import InterviewRoom from './pages/interviewRoom.jsx';
+import InterviewLobby from './pages/interviewLobby.jsx';
 
 function App() {
   return (
@@ -18,10 +19,9 @@ function App() {
             <Route path="/auth" element={<AuthenticationPage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/history" element={<HistoryPage />} />
-            <Route
-                path="/interview/:interviewId"
-                element={<InterviewRoom />}
-            />      
+            <Route path="/interview/lobby" element={<InterviewLobby />} />
+            <Route path="/interview/:roomId" element={<InterviewLobby />} />
+            <Route path="/interview-room/:roomId" element={<InterviewRoom />} />     
             <Route path="/:url" element={<VideoMeet />} />
           </Routes>
         </div>
