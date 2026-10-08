@@ -50,7 +50,6 @@ function HomeComponent() {
     try {
         const token = localStorage.getItem("token");
         
-        // Remove trailing slash from server URL if present to avoid double slashes
         const baseUrl = server.endsWith("/") ? server.slice(0, -1) : server;
         
         const response = await fetch(`${baseUrl}/api/v1/interview/create`, {
