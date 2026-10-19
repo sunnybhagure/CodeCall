@@ -58,7 +58,7 @@ export default function Authentication() {
                 setUsername("");
                 setPassword("");
                 setEmail("");
-                setFormState(0); // Redirect to Sign In after successful registration
+                setFormState(0); 
             }
         } catch (err) {
             console.log(err);
