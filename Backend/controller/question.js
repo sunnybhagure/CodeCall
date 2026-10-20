@@ -273,10 +273,6 @@ const runCode = async (req, res) => {
         }
 
 
-        // -----------------------------
-        // Only JavaScript for now
-        // -----------------------------
-
         if (
             !question.supportedLanguages ||
             !question.supportedLanguages.includes("javascript")
