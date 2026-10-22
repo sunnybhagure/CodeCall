@@ -284,7 +284,7 @@ const runCode = async (req, res) => {
 
 
         // -----------------------------
-        // Extract function name
+        // Extract function question
         // -----------------------------
 
         const functionMatch = code.match(
