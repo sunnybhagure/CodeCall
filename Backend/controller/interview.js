@@ -31,7 +31,7 @@ const createInterview = async (req, res) => {
             });
         }
 
-        // Generate unique room ID
+     
         let roomId;
         let existingInterview;
 
