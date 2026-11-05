@@ -107,7 +107,7 @@ const InterviewRoom = () => {
 
     const handleRunCode = async () => {
         setOutput("Running code and executing test cases...");
-        // Simulated execution or API call to run code endpoint
+        // Simulated execution or API call to run code 
         setTimeout(() => {
             setOutput(`Test Case 1 Passed ✓\nTest Case 2 Passed ✓\nAll tests completed successfully!`);
         }, 1000);
