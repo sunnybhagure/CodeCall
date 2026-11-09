@@ -34,7 +34,7 @@ function HomeComponent() {
     const [meetingCode, setMeetingCode] = useState("");
     const { addToUserHistory } = useContext(AuthContext);
 
-    // Create Interview Modal States
+    // Create Interview Modal
     const [openModal, setOpenModal] = useState(false);
     const [companyName, setCompanyName] = useState("");
     const [jobRole, setJobRole] = useState("");
