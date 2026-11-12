@@ -19,7 +19,7 @@ const defaultTheme = createTheme({
             main: '#6366f1', // Premium Indigo
         },
         secondary: {
-            main: '#10b981', // Emerald Green
+            main: '#10b981', 
         },
     },
 });
