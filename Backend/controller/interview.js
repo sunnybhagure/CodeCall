@@ -22,7 +22,7 @@ const createInterview = async (req, res) => {
             });
         }
 
-        // Find interviewer using existing token
+        // Find interviewer using existing 
         const interviewer = await User.findOne({ token });
 
         if (!interviewer) {
